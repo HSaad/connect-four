@@ -1,10 +1,9 @@
 class Game
 
 	def initialize
-		#@board_array = 
 		@board = Board.new()
 		@player1 = Player.new("x")
-
+		@board_array = @board.board_array
 	end
 
 	def start
@@ -15,7 +14,11 @@ class Game
 		puts "Player 1 will go first"
 
 		#while(!game_over?)
-		#switch_players()
+		switch_players()
+		@current_player.move(@board_array)
+		last_move = @current_player.player_moves.last
+		@board_array[last_move[1]-1][last_move[0]-1] = @current_player.mark
+		@board.draw(@board_array)
 		#end
 
 		#restart if play_again?
@@ -105,7 +108,10 @@ class Game
 	end
 
 	def restart
-
+		@board = Board.new()
+		@player1 = Player.new("x")
+		@board_array = @board.board_array
+		
 		start()
 	end
 
@@ -119,8 +125,10 @@ class Board
 	end
 
 	def draw(array=@board_array)
-		puts "__________________________"
-		array.each do |subarr|
+		puts "   1   2   3   4   5   6   7  "
+		puts "______________________________"
+		array.each_with_index do |subarr, ind|
+			print " #{ind + 1} "
 			subarr.each_with_index do |item, index|
 				if index == 6
 					print item
@@ -128,7 +136,7 @@ class Board
 					print item + " | "
 				end
 			end
-			puts "\n__________________________"
+			puts "\n______________________________"
 		end
 	end
 end
@@ -143,11 +151,12 @@ class Player
 
 	def move(board_array)
 		puts "Make your move: "
-		puts "Column(1-7)"
+		puts "Column(1-7): "
 		col = gets.chomp
-		puts "Row (1-6)"
+		puts "Row (1-6): "
 		row = gets.chomp
 		if valid_move?(col, row, board_array)
+			puts "Your Move: (#{col}, #{row})"
 			move = [col.to_i, row.to_i]
 			@player_moves.push(move)
 		else
@@ -155,16 +164,35 @@ class Player
 		end
 	end
 
-	def valid_move?(col, row, board_array)
-
+	def valid_move?(column, rows, board_array)
+		col = column.to_i
+		row = rows.to_i
+		if (col > 7 || col < 1)
+			return false
+		elsif (row > 6 || row < 1)
+			return false
+		elsif board_array[row][col] != " "
+			#bug at 7,6
+			return false
+		else
+			return true
+		end
 	end
 
 end
 
 class Computer < Player
-
-	def move()
-
+	
+	def move(board_array)
+		col = 1 + rand(7)
+		row = 1 + rand(6)
+		if valid_move?(col, row, board_array)
+			puts "Computer's Move: (#{col}, #{row})"
+			move = [col.to_i, row.to_i]
+			@player_moves.push(move)
+		else
+			move(board_array)
+		end
 	end
 end
 
