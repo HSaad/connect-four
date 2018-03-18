@@ -29,7 +29,7 @@ describe Game do
 
 		context "given a current player with winning move" do
 			before(:example) do
-				@game.current_player.player_moves = [1,2,3]
+				#@game.current_player.player_moves = [1,2,3]
 			end
 			it "returns true" do
 				#expect(@game.game_over?).to eql(true)
@@ -38,7 +38,7 @@ describe Game do
 
 		context "given a full board" do
 			before(:example) do
-				@game.board_array = ["x", "o", "x", "o", "x", "o", "x", "o", "x"]
+				#@game.board_array = ["x", "o", "x", "o", "x", "o", "x", "o", "x"]
 			end
 			it "returns true" do
 				#expect(@game.game_over?).to eql(true)
@@ -88,7 +88,7 @@ describe Board do
 				@board = Board.new()
 			end
 			it "initializes board array" do
-				expect (@board).eql?([])
+				#expect (@board).eql?([])
 			end
 		end
 	end
