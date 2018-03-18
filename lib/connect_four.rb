@@ -54,18 +54,71 @@ class Game
 			puts "Current Player: Player 1"
 		end
 	end
+
+	def game_over?
+
+	end
+
+	def check_win
+
+	end
+
+	def full_board
+
+	end
+
+	def print_winner
+
+	end
+
+	def print_no_winner
+		puts "Tie!"
+		puts "No Winner!"
+	end
+
+	def play_again?
+
+	end
+
+	def restart
+
+	end
+
 end
 
 class Board
+	def initialize
 
+	end
+
+	def draw
+
+	end
 end
 
 class Player
+	attr_accessor :player_moves, :mark
+
+	def initialize(mark)
+		@player_moves = []
+		@mark = mark
+	end
+
+	def move()
+
+	end
+
+	def valid_move?(move)
+
+	end
 
 end
 
 class Computer < Player
 
+	def move()
+
+	end
 end
 
 #game = Game.new()
