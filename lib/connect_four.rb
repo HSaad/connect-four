@@ -14,11 +14,13 @@ class Game
 		puts "Player 1 will go first"
 
 		#while(!game_over?)
-		switch_players()
-		@current_player.move(@board_array)
-		last_move = @current_player.player_moves.last
-		@board_array[last_move[1]-1][last_move[0]-1] = @current_player.mark
-		@board.draw(@board_array)
+		while !horizontal_win
+			switch_players()
+			@current_player.move(@board_array)
+			last_move = @current_player.player_moves.last
+			@board_array[last_move[1]-1][last_move[0]-1] = @current_player.mark
+			@board.draw(@board_array)
+		end
 		#end
 
 		#restart if play_again?
@@ -75,6 +77,28 @@ class Game
 	def check_win
 		return false if @current_player == nil
 
+		return diagonal_win || horizontal_win || vertical_win
+	end
+
+	def diagonal_win
+
+	end
+
+	def horizontal_win
+		@board_array.each do |row|
+			row_string = row.join
+			return true if row_string.include?("xxxx") || row_string.include?("oooo")
+		end
+		return false
+	end
+
+	def vertical_win
+		@board_array.each do |row|
+			row.each do |col|
+
+			end
+		end
+		return false
 	end
 
 	def board_full
@@ -111,7 +135,7 @@ class Game
 		@board = Board.new()
 		@player1 = Player.new("x")
 		@board_array = @board.board_array
-		
+
 		start()
 	end
 
@@ -171,8 +195,7 @@ class Player
 			return false
 		elsif (row > 6 || row < 1)
 			return false
-		elsif board_array[row][col] != " "
-			#bug at 7,6
+		elsif board_array[row-1][col-1] != " "
 			return false
 		else
 			return true
