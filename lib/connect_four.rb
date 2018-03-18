@@ -17,6 +17,8 @@ class Game
 		#while(!game_over?)
 		#switch_players()
 		#end
+
+		#restart if play_again?
 	end
 
 	def print_instructions
@@ -56,19 +58,35 @@ class Game
 	end
 
 	def game_over?
-
+		if check_win()
+			print_winner()
+			return true
+		elsif board_full
+			print_no_winner()
+			return true
+		else
+			return false
+		end
 	end
 
 	def check_win
+		return false if @current_player == nil
 
 	end
 
-	def full_board
+	def board_full
 
 	end
 
 	def print_winner
+		if @current_player == @player1
+			player = "Player 1"
+		else 
+			player = "Player 2"
+		end
 
+		puts "Congratulations #{player}!"
+		puts "You Win!"
 	end
 
 	def print_no_winner
@@ -77,22 +95,41 @@ class Game
 	end
 
 	def play_again?
-
+		puts "Play Again? (y/n)"
+		response = gets.chomp
+		if (response.downcase.strip == "y" || response.downcase.strip == "yes")
+			return true
+		else
+			return false
+		end
 	end
 
 	def restart
 
+		start()
 	end
 
 end
 
 class Board
-	def initialize
+	attr_accessor :board_array
 
+	def initialize
+		@board_array = [[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "], [" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "]]
 	end
 
-	def draw
-
+	def draw(array=@board_array)
+		puts "__________________________"
+		array.each do |subarr|
+			subarr.each_with_index do |item, index|
+				if index == 6
+					print item
+				else
+					print item + " | "
+				end
+			end
+			puts "\n__________________________"
+		end
 	end
 end
 
@@ -104,11 +141,21 @@ class Player
 		@mark = mark
 	end
 
-	def move()
-
+	def move(board_array)
+		puts "Make your move: "
+		puts "Column(1-7)"
+		col = gets.chomp
+		puts "Row (1-6)"
+		row = gets.chomp
+		if valid_move?(col, row, board_array)
+			move = [col.to_i, row.to_i]
+			@player_moves.push(move)
+		else
+			move(board_array)
+		end
 	end
 
-	def valid_move?(move)
+	def valid_move?(col, row, board_array)
 
 	end
 
@@ -121,5 +168,5 @@ class Computer < Player
 	end
 end
 
-#game = Game.new()
-#game.start
+game = Game.new()
+game.start

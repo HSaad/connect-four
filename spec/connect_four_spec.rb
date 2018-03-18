@@ -88,7 +88,7 @@ describe Board do
 				@board = Board.new()
 			end
 			it "initializes board array" do
-				#expect (@board).eql?([])
+				expect (@board.board_array).eql?([[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "], [" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "]])
 			end
 		end
 	end
