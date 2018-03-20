@@ -1,7 +1,7 @@
 require "connect_four"
 
+
 describe Game do
-	
 	#start method tests
 	describe "start" do
 		context "generates a new game" do
@@ -9,7 +9,7 @@ describe Game do
 				@game = Game.new()
 			end
 			it "initializes board array" do
-				#expect (@game.board_array).eql?(["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+				expect (@game.board_array).eql?([[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "], [" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "]])
 			end
 		end
 	end
@@ -18,30 +18,30 @@ describe Game do
 	describe ".game_over?" do
 		before(:example) do
 			@game = Game.new()
-			#@game.current_player = Player.new('o')
+			@game.current_player = Player.new("o")
 		end
 
 		context "given an initial game" do
 			it "returns false" do
-				#expect(@game.game_over?).to eql(false)
+				expect(@game.game_over?).to eql(false)
 			end
 		end
 
-		context "given a current player with winning move" do
+		context "given a horizonal win" do
 			before(:example) do
-				#@game.current_player.player_moves = [1,2,3]
+				@game.board_array = [[" ", "x", "x", "x", "x", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "], [" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "],[" ", " ", " ", " ", " ", " ", " "]]
 			end
 			it "returns true" do
-				#expect(@game.game_over?).to eql(true)
+				expect(@game.game_over?).to eql(true)
 			end
 		end
 
-		context "given a full board" do
+		context "given a random board" do
 			before(:example) do
-				#@game.board_array = ["x", "o", "x", "o", "x", "o", "x", "o", "x"]
+				@game.board_array = [["x", " ", " ", "o", " ", "o", "o"],["o", "o", " ", " ", " ", " ", " "],["x", " ", "x", " ", " ", " ", " "], ["x", " ", " ", "x", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "]]
 			end
-			it "returns true" do
-				#expect(@game.game_over?).to eql(true)
+			it "returns false" do
+				expect(@game.game_over?).to eql(false)
 			end
 		end
 	end
@@ -69,13 +69,39 @@ describe Player do
 	describe ".valid_move" do
 		before(:example) do
 			@player = Player.new('x')
+			@board = [["x", "x", "x", "x", "x", " ", " "],["x", " ", " ", " ", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "], ["x", " ", " ", " ", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "]]
 		end
 		
-		context "given an initial game and valid move" do
+		context "given a valid move" do
 			it "returns true" do
-			#	expect(@player.valid_move?(2, ["1", "2", "3", "4", "5", "6", "7", "8", "9"])).to eql(true)
+				expect(@player.valid_move?(2, @board)).to eql(true)
 			end
 		end
+
+		context "given a valid move" do
+			it "returns true" do
+				expect(@player.valid_move?(4, @board)).to eql(true)
+			end
+		end
+
+		context "given an invalid move" do
+			it "returns false" do
+				expect(@player.valid_move?(8, @board)).to eql(false)
+			end
+		end
+
+		context "given an invalid move" do
+			it "returns false" do
+				expect(@player.valid_move?(1, @board)).to eql(false)
+			end
+		end
+
+		context "given an invalid move" do
+			it "returns false" do
+				expect(@player.valid_move?("b", @board)).to eql(false)
+			end
+		end
+
 	end
 end
 

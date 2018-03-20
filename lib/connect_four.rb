@@ -1,4 +1,5 @@
 class Game
+	attr_accessor :board_array, :board, :current_player
 
 	def initialize
 		@board = Board.new()
@@ -203,8 +204,7 @@ class Player
 		puts "Make your move: "
 		puts "Column(1-7): "
 		move = gets.chomp
-		#puts "Row (1-6): "
-		#row = gets.chomp
+
 		if valid_move?(move, board_array)
 			col = @player_moves.last[0]
 			row = @player_moves.last[1]
