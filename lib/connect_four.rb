@@ -13,23 +13,21 @@ class Game
 
 		puts "Player 1 will go first"
 
-		#while(!game_over?)
-		while !horizontal_win
+		while !(game_over?)
 			switch_players()
 			@current_player.move(@board_array)
 			last_move = @current_player.player_moves.last
 			@board_array[last_move[1]-1][last_move[0]-1] = @current_player.mark
 			@board.draw(@board_array)
 		end
-		#end
 
-		#restart if play_again?
+		restart if play_again?
 	end
 
 	def print_instructions
 		puts "Welcome to Connect Four!"
 
-		puts "To win get 4 of your pieces consecutively in a horizontal, vertical, or diagonal row."
+		puts "To win get 4 of your pieces (either an 'x' or an 'o') consecutively in a horizontal, vertical, or diagonal row."
 	end
 
 	def choose_opponents
@@ -77,11 +75,27 @@ class Game
 	def check_win
 		return false if @current_player == nil
 
-		return diagonal_win || horizontal_win || vertical_win
+		return ascending_diagonal_win || descending_diagonal_win || horizontal_win || vertical_win
 	end
 
-	def diagonal_win
+	def ascending_diagonal_win
+		mark = @current_player.mark
+		3.upto(6) do |j|
+        3.times do |i|
+          return true if (@board_array[i][j] == mark && @board_array[i+1][j-1] == mark && @board_array[i+2][j-2] == mark && @board_array[i+3][j-3] == mark)
+      end
+    end
+    return false
+	end
 
+	def descending_diagonal_win
+		mark = @current_player.mark
+		3.upto(6) do |j|
+			3.upto(5) do |i|
+				return true if (@board_array[i][j] == mark && @board_array[i-1][j-1] == mark && @board_array[i-2][j-2] == mark && @board_array[i-3][j-3] == mark)
+			end
+		end
+		return false
 	end
 
 	def horizontal_win
@@ -93,16 +107,27 @@ class Game
 	end
 
 	def vertical_win
-		@board_array.each do |row|
-			row.each do |col|
-
+		current_streak = 0
+		
+		6.times do |col_num|
+			@board_array.each_with_index do |row, i|
+				if @board_array[i][col_num] == @current_player.mark
+					current_streak += 1
+					return true if current_streak >=  4
+				else
+					current_streak = 0
+				end
 			end
 		end
 		return false
 	end
 
 	def board_full
+		@board_array.each do |row|
+			return false if row.include? " "
+		end
 
+		return true
 	end
 
 	def print_winner
