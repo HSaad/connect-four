@@ -208,7 +208,7 @@ class Player
 		if valid_move?(move, board_array)
 			col = @player_moves.last[0]
 			row = @player_moves.last[1]
-			puts "Your Move: (#{col}, #{row})"
+			puts "Your Move: (#{col + 1}, #{row + 1})"
 		else
 			move(board_array)
 		end
@@ -239,7 +239,7 @@ class Computer < Player
 		if valid_move?(move, board_array)
 			col = @player_moves.last[0]
 			row = @player_moves.last[1]
-			puts "Computer's Move: (#{col}, #{row})"
+			puts "Computer's Move: (#{col + 1}, #{row + 1})"
 		else
 			move(board_array)
 		end

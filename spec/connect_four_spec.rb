@@ -36,6 +36,12 @@ describe Game do
 			end
 		end
 
+		#given vertical win
+		#given diagonal ascending win
+		#given diagonal descending win
+		#given full board
+		#given losing board
+
 		context "given a random board" do
 			before(:example) do
 				@game.board_array = [["x", " ", " ", "o", " ", "o", "o"],["o", "o", " ", " ", " ", " ", " "],["x", " ", "x", " ", " ", " ", " "], ["x", " ", " ", "x", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "],["x", " ", " ", " ", " ", " ", " "]]
@@ -66,6 +72,7 @@ describe Player do
 		end
 	end
 
+	#valid move tests
 	describe ".valid_move" do
 		before(:example) do
 			@player = Player.new('x')
