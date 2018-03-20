@@ -17,7 +17,7 @@ class Game
 			switch_players()
 			@current_player.move(@board_array)
 			last_move = @current_player.player_moves.last
-			@board_array[last_move[1]-1][last_move[0]-1] = @current_player.mark
+			@board_array[last_move[1]][last_move[0]] = @current_player.mark
 			@board.draw(@board_array)
 		end
 
@@ -202,30 +202,32 @@ class Player
 	def move(board_array)
 		puts "Make your move: "
 		puts "Column(1-7): "
-		col = gets.chomp
-		puts "Row (1-6): "
-		row = gets.chomp
-		if valid_move?(col, row, board_array)
+		move = gets.chomp
+		#puts "Row (1-6): "
+		#row = gets.chomp
+		if valid_move?(move, board_array)
+			col = @player_moves.last[0]
+			row = @player_moves.last[1]
 			puts "Your Move: (#{col}, #{row})"
-			move = [col.to_i, row.to_i]
-			@player_moves.push(move)
 		else
 			move(board_array)
 		end
 	end
 
-	def valid_move?(column, rows, board_array)
-		col = column.to_i
-		row = rows.to_i
-		if (col > 7 || col < 1)
-			return false
-		elsif (row > 6 || row < 1)
-			return false
-		elsif board_array[row-1][col-1] != " "
-			return false
-		else
-			return true
-		end
+	def valid_move?(move, board_array)
+		col = move.to_i
+
+		return false if (col > 7 || col < 1)
+	
+		5.downto(0) do |row|
+			if board_array[row][col-1] == " "
+				moves = [col.to_i - 1, row]
+				@player_moves.push(moves)
+				return true 
+			end
+		end 
+
+		return false
 	end
 
 end
@@ -233,12 +235,11 @@ end
 class Computer < Player
 	
 	def move(board_array)
-		col = 1 + rand(7)
-		row = 1 + rand(6)
-		if valid_move?(col, row, board_array)
+		move = 1 + rand(7)
+		if valid_move?(move, board_array)
+			col = @player_moves.last[0]
+			row = @player_moves.last[1]
 			puts "Computer's Move: (#{col}, #{row})"
-			move = [col.to_i, row.to_i]
-			@player_moves.push(move)
 		else
 			move(board_array)
 		end
