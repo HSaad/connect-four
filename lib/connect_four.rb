@@ -147,6 +147,7 @@ class Game
 	end
 
 	def play_again?
+		puts "___________________________"
 		puts "Play Again? (y/n)"
 		response = gets.chomp
 		if (response.downcase.strip == "y" || response.downcase.strip == "yes")
@@ -174,10 +175,10 @@ class Board
 	end
 
 	def draw(array=@board_array)
-		puts "   1   2   3   4   5   6   7  "
-		puts "______________________________"
-		array.each_with_index do |subarr, ind|
-			print " #{ind + 1} "
+		puts "  1   2   3   4   5   6   7  "
+		puts "_____________________________"
+		array.each do |subarr|
+			print "  "
 			subarr.each_with_index do |item, index|
 				if index == 6
 					print item
@@ -185,7 +186,7 @@ class Board
 					print item + " | "
 				end
 			end
-			puts "\n______________________________"
+			puts "\n_____________________________"
 		end
 	end
 end
